@@ -1,8 +1,8 @@
 package com.reactdevops.timetracker.backend.service.services.impl;
 
-import com.reactdevops.timetracker.backend.repository.dao.CreateReadUpdateDeleteDAO;
+import com.reactdevops.timetracker.backend.repository.dao.CreateReadDeleteDAO;
 import com.reactdevops.timetracker.backend.repository.entities.UserEntity;
-import com.reactdevops.timetracker.backend.service.services.CreateReadUpdateDeleteService;
+import com.reactdevops.timetracker.backend.service.services.CreateReadDeleteService;
 import com.reactdevops.timetracker.backend.web.dto.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -10,8 +10,13 @@ import jakarta.inject.Inject;
 import java.util.List;
 
 @RequestScoped
-public class UserService implements CreateReadUpdateDeleteService<User> {
-  @Inject private CreateReadUpdateDeleteDAO<UserEntity> userEntityCreateReadUpdateDeleteDAO;
+public class UserService implements CreateReadDeleteService<User> {
+  private final CreateReadDeleteDAO<UserEntity> userEntityCreateReadUpdateDeleteDAO;
+
+  @Inject
+  public UserService(CreateReadDeleteDAO<UserEntity> userEntityCreateReadUpdateDeleteDAO) {
+    this.userEntityCreateReadUpdateDeleteDAO = userEntityCreateReadUpdateDeleteDAO;
+  }
 
   @Override
   public void create(User object) {}
@@ -28,7 +33,4 @@ public class UserService implements CreateReadUpdateDeleteService<User> {
 
   @Override
   public void deleteById(Long id) {}
-
-  @Override
-  public void update(User object) {}
 }

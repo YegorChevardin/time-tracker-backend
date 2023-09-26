@@ -1,7 +1,7 @@
 package com.reactdevops.timetracker.backend.repository.dao.impl;
 
+import com.reactdevops.timetracker.backend.repository.dao.CreateReadDeleteDAO;
 import com.reactdevops.timetracker.backend.repository.entities.UserEntity;
-import com.reactdevops.timetracker.backend.repository.dao.CreateReadUpdateDeleteDAO;
 import com.reactdevops.timetracker.backend.repository.providers.DataSourceProvider;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
@@ -16,8 +16,13 @@ import java.util.Optional;
  * @version 0.0.1
  */
 @RequestScoped
-public class UserDAO implements CreateReadUpdateDeleteDAO<UserEntity> {
-  @Inject private DataSourceProvider dataSourceProvider;
+public class UserDAO implements CreateReadDeleteDAO<UserEntity> {
+  private final DataSourceProvider dataSourceProvider;
+
+  @Inject
+  public UserDAO(DataSourceProvider dataSourceProvider) {
+    this.dataSourceProvider = dataSourceProvider;
+  }
 
   @Override
   public void create(UserEntity object) {}
@@ -34,7 +39,4 @@ public class UserDAO implements CreateReadUpdateDeleteDAO<UserEntity> {
 
   @Override
   public void deleteById(Long id) {}
-
-  @Override
-  public void update(UserEntity object) {}
 }

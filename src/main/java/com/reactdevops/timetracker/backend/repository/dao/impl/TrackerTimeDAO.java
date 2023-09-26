@@ -17,7 +17,12 @@ import java.util.Optional;
  */
 @RequestScoped
 public class TrackerTimeDAO implements CreateReadDeleteDAO<TrackedTimeEntity> {
-  @Inject private DataSourceProvider dataSourceProvider;
+  private final DataSourceProvider dataSourceProvider;
+
+  @Inject
+  public TrackerTimeDAO(DataSourceProvider dataSourceProvider) {
+    this.dataSourceProvider = dataSourceProvider;
+  }
 
   @Override
   public void create(TrackedTimeEntity object) {}

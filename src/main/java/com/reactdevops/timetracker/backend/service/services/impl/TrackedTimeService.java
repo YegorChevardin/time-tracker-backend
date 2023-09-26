@@ -11,8 +11,12 @@ import java.util.List;
 
 @RequestScoped
 public class TrackedTimeService implements CreateReadDeleteService<TrackedTime> {
+  private final CreateReadDeleteDAO<TrackedTimeEntity> timeEntityCreateReadDeleteDAO;
+
   @Inject
-  private CreateReadDeleteDAO<TrackedTimeEntity> timeEntityCreateReadDeleteDAO;
+  public TrackedTimeService(CreateReadDeleteDAO<TrackedTimeEntity> timeEntityCreateReadDeleteDAO) {
+    this.timeEntityCreateReadDeleteDAO = timeEntityCreateReadDeleteDAO;
+  }
 
   @Override
   public void create(TrackedTime object) {}
