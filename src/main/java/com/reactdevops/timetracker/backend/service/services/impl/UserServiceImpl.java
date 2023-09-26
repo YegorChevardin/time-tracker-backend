@@ -11,7 +11,6 @@ import com.reactdevops.timetracker.backend.service.handler.HashHandler;
 import com.reactdevops.timetracker.backend.service.qualifiers.PasswordHasherQualifier;
 import com.reactdevops.timetracker.backend.service.qualifiers.UserEntityObjectConvertorQualifier;
 import com.reactdevops.timetracker.backend.service.qualifiers.UserServiceQualifier;
-import com.reactdevops.timetracker.backend.service.services.CreateReadDeleteService;
 import com.reactdevops.timetracker.backend.service.services.UserService;
 import com.reactdevops.timetracker.backend.web.dto.User;
 import jakarta.enterprise.context.RequestScoped;
@@ -28,7 +27,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
   private static final Logger logger = LogManager.getLogger(UserServiceImpl.class.getName());
 
-  @Inject @UserDAOQualifier private UserCRUDDAO userEntityCreateReadUpdateDeleteDAO;
+  @Inject @UserDAOQualifier
+  private UserCRUDDAO userEntityCreateReadUpdateDeleteDAO;
 
   @Inject @UserEntityObjectConvertorQualifier
   private DtoEntityObjectConvertor<UserEntity, User> userDtoEntityObjectConvertor;
