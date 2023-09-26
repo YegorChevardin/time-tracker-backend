@@ -1,4 +1,4 @@
-package com.reactdevops.timetracker.backend.entities;
+package com.reactdevops.timetracker.backend.repository.entities;
 
 import java.sql.Timestamp;
 

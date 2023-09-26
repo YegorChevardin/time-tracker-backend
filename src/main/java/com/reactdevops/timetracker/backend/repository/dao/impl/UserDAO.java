@@ -1,6 +1,6 @@
 package com.reactdevops.timetracker.backend.repository.dao.impl;
 
-import com.reactdevops.timetracker.backend.entities.UserEntity;
+import com.reactdevops.timetracker.backend.repository.entities.UserEntity;
 import com.reactdevops.timetracker.backend.repository.dao.CreateReadUpdateDeleteDAO;
 import com.reactdevops.timetracker.backend.repository.providers.DataSourceProvider;
 import jakarta.enterprise.context.RequestScoped;

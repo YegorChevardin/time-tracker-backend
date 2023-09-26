@@ -1,4 +1,4 @@
-package com.reactdevops.timetracker.backend.web;
+package com.reactdevops.timetracker.backend.web.servlets;
 
 import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
