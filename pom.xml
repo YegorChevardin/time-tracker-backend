@@ -28,9 +28,9 @@
     </dependency>
     <!-- For enterprise java beans -->
     <dependency>
-      <groupId>org.jboss.weld.se</groupId>
-      <artifactId>weld-se-core</artifactId>
-      <version>5.1.1.SP2</version>
+      <groupId>org.jboss.weld.servlet</groupId>
+      <artifactId>weld-servlet-shaded</artifactId>
+      <version>4.0.3.Final</version>
     </dependency>
     <dependency>
       <groupId>jakarta.platform</groupId>

@@ -1,5 +1,6 @@
 package com.reactdevops.timetracker.backend.web.servlets;
 
+import com.reactdevops.timetracker.backend.service.qualifiers.TrackedTimeServiceQualifier;
 import com.reactdevops.timetracker.backend.service.services.CreateReadDeleteService;
 import com.reactdevops.timetracker.backend.web.dto.TrackedTime;
 import jakarta.inject.Inject;
@@ -13,12 +14,8 @@ import java.io.IOException;
 
 @WebServlet(name = "timeTracker", value = "/api/v1/tracked-time")
 public class TimeTrackerServlet extends HttpServlet {
-  private final CreateReadDeleteService<TrackedTime> timeCreateReadDeleteService;
-
-  @Inject
-  public TimeTrackerServlet(CreateReadDeleteService<TrackedTime> timeCreateReadDeleteService) {
-    this.timeCreateReadDeleteService = timeCreateReadDeleteService;
-  }
+  @Inject @TrackedTimeServiceQualifier
+  private CreateReadDeleteService<TrackedTime> timeCreateReadDeleteService;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp)

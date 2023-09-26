@@ -1,5 +1,9 @@
 <!-- Configuring tomcat datasource connection pool for future injection into beans -->
 <Context>
+    <Resource name="BeanManager"
+              auth="Container"
+              type="jakarta.enterprise.inject.spi.BeanManager"
+              factory="org.jboss.weld.resources.ManagerObjectFactory"/>
     <Resource name="jdbc/timetracker" auth="Container" type="javax.sql.DataSource"
               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
               username="root" password="password" driverClassName="com.mysql.cj.jdbc.Driver"

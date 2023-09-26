@@ -12,12 +12,7 @@ import java.io.IOException;
 
 @WebServlet(name = "loginServlet", value = "/api/v1/auth/login")
 public class LoginServlet extends HttpServlet {
-  private final AuthService authService;
-
-  @Inject
-  public LoginServlet(AuthService authService) {
-    this.authService = authService;
-  }
+  @Inject private AuthService authService;
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse resp)
