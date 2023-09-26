@@ -17,7 +17,9 @@ import java.io.PrintWriter;
 
 @WebServlet(name = "userServlet", value = "/api/v1/auth/user")
 public class UserServlet extends HttpServlet {
-  @Inject @UserServiceQualifier private CreateReadDeleteService<User> userService;
+  @Inject
+  @UserServiceQualifier
+  private CreateReadDeleteService<User> userService;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
