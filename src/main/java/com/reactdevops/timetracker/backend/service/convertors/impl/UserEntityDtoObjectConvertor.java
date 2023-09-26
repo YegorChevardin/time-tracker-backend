@@ -9,11 +9,11 @@ import jakarta.enterprise.context.RequestScoped;
 public class UserEntityDtoObjectConvertor implements DtoEntityObjectConvertor<UserEntity, User> {
   @Override
   public UserEntity dtoToEntity(User object) {
-    return null;
+    return new UserEntity(object.getId(), object.getUsername(), object.getPassword());
   }
 
   @Override
   public User entityToDto(UserEntity object) {
-    return null;
+    return new User(object.getId(), object.getUsername(), object.getPassword());
   }
 }

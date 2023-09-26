@@ -15,8 +15,7 @@ public class TrackedTime {
   Timestamp endTime;
   User user;
 
-  public TrackedTime(
-      Long id, String description, Timestamp startTime, Timestamp endTime, User user) {
+  public TrackedTime(Long id, String description, Timestamp startTime, Timestamp endTime, User user) {
     this.id = id;
     this.description = description;
     this.startTime = startTime;

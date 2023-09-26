@@ -10,7 +10,8 @@ import jakarta.inject.Inject;
 
 @RequestScoped
 public class AuthServiceImpl implements AuthService {
-  @Inject @UserDAOQualifier private CreateReadDeleteDAO<UserEntity> userEntityCreateReadDeleteDAO;
+  @Inject @UserDAOQualifier
+  private CreateReadDeleteDAO<UserEntity> userEntityCreateReadDeleteDAO;
 
   @Override
   public JwtResponse processLogin(JwtResponse jwtResponse) {

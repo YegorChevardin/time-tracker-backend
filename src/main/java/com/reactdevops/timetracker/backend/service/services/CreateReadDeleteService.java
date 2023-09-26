@@ -1,5 +1,6 @@
 package com.reactdevops.timetracker.backend.service.services;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -9,11 +10,11 @@ import java.util.List;
  * @version 0.0.1
  */
 public interface CreateReadDeleteService<T> {
-  void create(T object);
+  void create(T object) throws SQLException;
 
-  T read(Long id);
+  T read(Long id) throws SQLException;
 
-  List<T> readAll();
+  List<T> readAll() throws SQLException;
 
-  void deleteById(Long id);
+  void deleteById(Long id) throws SQLException;
 }
