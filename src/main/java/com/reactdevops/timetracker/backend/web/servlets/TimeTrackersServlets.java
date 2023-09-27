@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.NoSuchElementException;
 
-@WebServlet(name = "timeTracker", value = "/api/v1/tracked-times")
+@WebServlet(name = "timeTrackers", value = "/api/v1/tracked-times")
 public class TimeTrackersServlets extends HttpServlet {
 
     @Inject
