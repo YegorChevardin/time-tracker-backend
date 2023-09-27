@@ -1,8 +1,6 @@
 package com.reactdevops.timetracker.backend.web.servlets;
 
 import com.google.gson.Gson;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,7 +18,6 @@ import java.util.Map;
  * @author yegorchevardin
  * @version 0.0.1
  */
-@WebServlet(name = "homeServlet", value = {"/", "/api/v1/"})
 public class HomeServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
