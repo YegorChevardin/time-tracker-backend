@@ -8,15 +8,10 @@ import com.reactdevops.timetracker.backend.web.helper.ErrorCreatingHelper;
 import io.jsonwebtoken.SignatureException;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Authentication filter
@@ -24,9 +19,6 @@ import java.util.Set;
  * @author yegorchevardin
  * @version 0.0.1
  */
-@WebFilter(
-    filterName = "AuthFilter",
-    urlPatterns = {"/*"})
 public class AuthFilter implements Filter {
   private static final String AUTH_PATH = "/api/v1/auth/login";
   private static final String REGISTER_PATH = "/api/v1/users/user";
@@ -34,18 +26,27 @@ public class AuthFilter implements Filter {
   @Inject @JwtTokenAuthServiceQualifier private AuthService authService;
 
   @Override
-  public void doFilter(
-      ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-      throws IOException, ServletException {
-    String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
-    String requestMethod = ((HttpServletRequest) servletRequest).getMethod();
+  public void init(FilterConfig filterConfig) throws ServletException {
+    Filter.super.init(filterConfig);
+  }
 
-    if (requestURI.equalsIgnoreCase(AUTH_PATH)
-        || (requestURI.equalsIgnoreCase(REGISTER_PATH) && requestMethod.equalsIgnoreCase("POST"))) {
+  @Override
+  public void doFilter(
+          ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+          throws IOException, ServletException {
+    HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
+    HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+    String currentAuthPath = httpServletRequest.getContextPath() + AUTH_PATH;
+    String currentRegisterPath = httpServletRequest.getContextPath() + REGISTER_PATH;
+    String requestURI = httpServletRequest.getRequestURI();
+    String requestMethod = httpServletRequest.getMethod();
+
+    if (requestMethod.equalsIgnoreCase("OPTIONS")
+            || requestURI.equalsIgnoreCase(currentAuthPath)
+            || (requestURI.equalsIgnoreCase(currentRegisterPath)
+            && requestMethod.equalsIgnoreCase("POST"))) {
       filterChain.doFilter(servletRequest, servletResponse);
     } else {
-      HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-      HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
       String authHeader = httpServletRequest.getHeader("Authorization");
 
       try {
@@ -63,7 +64,7 @@ public class AuthFilter implements Filter {
   }
 
   private void sendJsonErrorResponse(HttpServletResponse response, String message)
-      throws IOException {
+          throws IOException {
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     response.setContentType("application/json");
 
