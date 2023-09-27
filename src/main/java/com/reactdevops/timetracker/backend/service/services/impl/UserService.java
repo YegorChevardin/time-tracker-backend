@@ -10,6 +10,7 @@ import com.reactdevops.timetracker.backend.web.dto.User;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @UserServiceQualifier
@@ -22,24 +23,24 @@ public class UserService implements CreateReadDeleteService<User> {
   private UserEntityDtoObjectConvertor userConvertor;
 
   @Override
-  public void create(User object) {
+  public void create(User object) throws SQLException {
     UserEntity entity = userConvertor.dtoToEntity(object);
     userEntityCreateReadUpdateDeleteDAO.create(entity);
   }
 
   @Override
-  public User read(Long id) {
+  public User read(Long id) throws SQLException {
     UserEntity entity = userEntityCreateReadUpdateDeleteDAO.read(id).orElseThrow();
     return userConvertor.entityToDto(entity);
   }
 
   @Override
-  public List<User> readAll() {
+  public List<User> readAll() throws SQLException {
     return userConvertor.listEntityToListDto(userEntityCreateReadUpdateDeleteDAO.readAll());
   }
 
   @Override
-  public void deleteById(Long id) {
+  public void deleteById(Long id) throws SQLException {
     userEntityCreateReadUpdateDeleteDAO.deleteById(id);
   }
 }

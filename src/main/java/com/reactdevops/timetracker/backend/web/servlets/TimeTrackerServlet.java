@@ -1,11 +1,15 @@
 package com.reactdevops.timetracker.backend.web.servlets;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.reactdevops.timetracker.backend.service.exceptions.CustomWebException;
 import com.reactdevops.timetracker.backend.service.qualifiers.TrackedTimeServiceQualifier;
 import com.reactdevops.timetracker.backend.service.services.CreateReadDeleteService;
 import com.reactdevops.timetracker.backend.web.dto.TrackedTime;
-import com.reactdevops.timetracker.backend.web.dto.User;
+import com.reactdevops.timetracker.backend.web.helper.ErrorCreatingHelper;
+import com.reactdevops.timetracker.backend.web.helper.RequestBodyReader;
 import jakarta.inject.Inject;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,37 +18,76 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 @WebServlet(name = "timeTracker", value = "/api/v1/tracked-time")
 public class TimeTrackerServlet extends HttpServlet {
-  @Inject
-  @TrackedTimeServiceQualifier
-  private CreateReadDeleteService<TrackedTime> timeCreateReadDeleteService;
 
+    @Inject
+    @TrackedTimeServiceQualifier
+    private CreateReadDeleteService<TrackedTime> timeCreateReadDeleteService;
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    resp.setContentType("application/json");
-    PrintWriter pw = resp.getWriter();
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+    }
 
-    List<TrackedTime> list = timeCreateReadDeleteService.readAll();
-    pw.write(new Gson().toJson(list));
-  }
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        PrintWriter pw = resp.getWriter();
+        Gson gson = new Gson();
+        String trackerId = req.getParameter("id");
 
-  @Override
-  protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    super.doPost(req, resp);
-  }
+        try {
+            pw.print(gson.toJson(timeCreateReadDeleteService.read(Long.valueOf(trackerId))));
+        } catch (SQLException | CustomWebException e) {
+            resp.setStatus(500);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("The SQL query is wrong!")));
+        } catch (NoSuchElementException e) {
+            resp.setStatus(500);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("There is no such time tracker by this id")));
+        } catch (ClassCastException | NumberFormatException e) {
+            resp.setStatus(406);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("TimeTracker Id must be valid!")));
+        }
+    }
 
-  @Override
-  protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    super.doDelete(req, resp);
-  }
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        PrintWriter pw = resp.getWriter();
+        Gson gson = new Gson();
+        TrackedTime dataObject = gson.fromJson(RequestBodyReader.readBodyFromRequest(req), TrackedTime.class);
+        try {
+            timeCreateReadDeleteService.create(dataObject);
+        } catch (CustomWebException | SQLException e){
+            resp.setStatus(500);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("The SQL query or Json structure is wrong!")));
+        } catch (JsonSyntaxException e) {
+            resp.setStatus(406);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("Time tracker Json must be valid!")));
+        }
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        PrintWriter pw = resp.getWriter();
+        Gson gson = new Gson();
+        String trackerId = req.getParameter("id");
+        try {
+            timeCreateReadDeleteService.deleteById(Long.valueOf(trackerId));
+        } catch (SQLException e) {
+            resp.setStatus(500);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("The SQL query is wrong!")));
+        } catch (CustomWebException e) {
+            resp.setStatus(500);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError(e.getMessage())));
+        } catch (ClassCastException e) {
+            resp.setStatus(406);
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("Time tracker Id must be valid!")));
+        }
+    }
 }
