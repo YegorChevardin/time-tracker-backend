@@ -13,4 +13,6 @@ public interface AuthService {
   JwtResponse processLogin(JwtRequest jwtRequest);
 
   boolean verify(String token);
+
+  String getUsernameFromToken(String token);
 }

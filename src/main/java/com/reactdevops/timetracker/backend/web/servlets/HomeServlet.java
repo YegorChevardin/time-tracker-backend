@@ -20,7 +20,7 @@ import java.util.Map;
  * @author yegorchevardin
  * @version 0.0.1
  */
-@WebServlet(name = "homeServlet", value = "/")
+@WebServlet(name = "homeServlet", value = {"/", "/api/v1/"})
 public class HomeServlet extends HttpServlet {
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
