@@ -32,8 +32,8 @@ public class AuthFilter implements Filter {
 
   @Override
   public void doFilter(
-          ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-          throws IOException, ServletException {
+      ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+      throws IOException, ServletException {
     HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
     HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
     String currentAuthPath = httpServletRequest.getContextPath() + AUTH_PATH;
@@ -41,12 +41,12 @@ public class AuthFilter implements Filter {
     String requestURI = httpServletRequest.getRequestURI();
     String requestMethod = httpServletRequest.getMethod();
 
-    if (requestMethod.equalsIgnoreCase("OPTIONS") || requestURI.equalsIgnoreCase(AUTH_PATH)
-        || (requestURI.equalsIgnoreCase(REGISTER_PATH) && requestMethod.equalsIgnoreCase("POST"))) {
+    if (requestMethod.equalsIgnoreCase("OPTIONS")
+        || requestURI.equalsIgnoreCase(currentAuthPath)
+        || (requestURI.equalsIgnoreCase(currentRegisterPath)
+            && requestMethod.equalsIgnoreCase("POST"))) {
       filterChain.doFilter(servletRequest, servletResponse);
     } else {
-      HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-      HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
       String authHeader = httpServletRequest.getHeader("Authorization");
 
       try {
@@ -64,7 +64,7 @@ public class AuthFilter implements Filter {
   }
 
   private void sendJsonErrorResponse(HttpServletResponse response, String message)
-          throws IOException {
+      throws IOException {
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     response.setContentType("application/json");
 
