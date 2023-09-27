@@ -36,4 +36,13 @@
         <error-code>404</error-code>
         <location>/error</location>
     </error-page>
+    <!-- Home servlet -->
+    <servlet>
+        <servlet-name>homeServlet</servlet-name>
+        <servlet-class>com.reactdevops.timetracker.backend.web.servlets.HomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>homeServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>
