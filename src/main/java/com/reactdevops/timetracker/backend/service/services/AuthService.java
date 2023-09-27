@@ -1,5 +1,6 @@
 package com.reactdevops.timetracker.backend.service.services;
 
+import com.reactdevops.timetracker.backend.web.dto.auth.JwtRequest;
 import com.reactdevops.timetracker.backend.web.dto.auth.JwtResponse;
 
 /**
@@ -9,5 +10,7 @@ import com.reactdevops.timetracker.backend.web.dto.auth.JwtResponse;
  * @version 0.0.1
  */
 public interface AuthService {
-  JwtResponse processLogin(JwtResponse jwtResponse);
+  JwtResponse processLogin(JwtRequest jwtRequest);
+
+  boolean verify(String token);
 }
