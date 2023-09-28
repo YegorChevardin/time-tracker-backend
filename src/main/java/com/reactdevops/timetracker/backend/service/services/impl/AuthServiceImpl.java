@@ -58,4 +58,15 @@ public class AuthServiceImpl implements AuthService {
     }
     throw new AuthException("Jwt token doesn't starts with bearer or equals null");
   }
+
+  @Override
+  public String getUsernameFromToken(String token) {
+    if (token != null && token.startsWith("Bearer ")) {
+      token = token.substring(TOKEN_HEADER_BEGIN_INDEX);
+      JwtHandler jwtHandler = new JwtHandler();
+
+      return jwtHandler.getUsernameFromToken(token);
+    }
+    throw new AuthException("Jwt token doesn't starts with bearer or equals null");
+  }
 }

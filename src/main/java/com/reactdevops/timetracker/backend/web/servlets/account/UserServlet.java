@@ -4,7 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.reactdevops.timetracker.backend.service.exceptions.CustomWebException;
 import com.reactdevops.timetracker.backend.service.exceptions.ObjectNotFoundException;
+import com.reactdevops.timetracker.backend.service.qualifiers.JwtTokenAuthServiceQualifier;
 import com.reactdevops.timetracker.backend.service.qualifiers.UserServiceQualifier;
+import com.reactdevops.timetracker.backend.service.services.AuthService;
 import com.reactdevops.timetracker.backend.service.services.UserService;
 import com.reactdevops.timetracker.backend.web.dto.User;
 import com.reactdevops.timetracker.backend.web.helper.ErrorCreatingHelper;
@@ -20,16 +22,18 @@ import java.io.PrintWriter;
 @WebServlet(name = "userServlet", value = "/api/v1/users/user")
 public class UserServlet extends HttpServlet {
   @Inject @UserServiceQualifier private UserService userService;
+  @Inject @JwtTokenAuthServiceQualifier private AuthService authService;
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
     resp.setContentType("application/json");
     PrintWriter printWriter = resp.getWriter();
     Gson gson = new Gson();
-    String userId = req.getParameter("id");
+    String authToken = req.getHeader("Authorization");
 
     try {
-      printWriter.print(gson.toJson(userService.read(Long.valueOf(userId))));
+      printWriter.print(
+          gson.toJson(userService.findByUsername(authService.getUsernameFromToken(authToken))));
     } catch (ObjectNotFoundException e) {
       resp.setStatus(404);
       printWriter.print(gson.toJson(ErrorCreatingHelper.createError(e.getMessage())));
@@ -59,7 +63,8 @@ public class UserServlet extends HttpServlet {
       printWriter.print(gson.toJson(ErrorCreatingHelper.createError(e.getMessage())));
     } catch (JsonSyntaxException e) {
       resp.setStatus(406);
-      printWriter.print(gson.toJson(ErrorCreatingHelper.createError("User structure must be valid!")));
+      printWriter.print(
+          gson.toJson(ErrorCreatingHelper.createError("User structure must be valid!")));
     }
   }
 
