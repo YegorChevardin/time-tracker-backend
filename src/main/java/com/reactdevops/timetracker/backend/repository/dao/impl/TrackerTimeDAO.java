@@ -1,6 +1,6 @@
 package com.reactdevops.timetracker.backend.repository.dao.impl;
 
-import com.reactdevops.timetracker.backend.repository.dao.CreateReadDeleteDAO;
+import com.reactdevops.timetracker.backend.repository.dao.TimeTrackerCRUDDAO;
 import com.reactdevops.timetracker.backend.repository.entities.TrackedTimeEntity;
 import com.reactdevops.timetracker.backend.repository.entities.UserEntity;
 import com.reactdevops.timetracker.backend.repository.providers.DataSourceProvider;
@@ -22,7 +22,7 @@ import java.util.Optional;
  */
 @TrackerTimeDAOQualifier
 @RequestScoped
-public class TrackerTimeDAO implements CreateReadDeleteDAO<TrackedTimeEntity> {
+public class TrackerTimeDAO implements TimeTrackerCRUDDAO {
     @Inject
     private DataSourceProvider dataSourceProvider;
 
@@ -31,9 +31,10 @@ public class TrackerTimeDAO implements CreateReadDeleteDAO<TrackedTimeEntity> {
     private UserDAO userDAO;
 
     private static final String CREATE_TRACKED_TIME_STATEMENT = "INSERT INTO tracked_times(description, start_time, end_time, user_id) VALUES (?, ?, ?, ?);";
-    private static final String FIND_ALL_TRACKED_TIMES = "SELECT * FROM tracked_times;";
-    private static final String FIND_BY_ID = "SELECT * FROM tracked_times WHERE id = ?;";
+    private static final String FIND_ALL_TRACKED_TIMES = "SELECT * FROM tracked_times where user_id = ?;";
+    private static final String FIND_BY_USER_ID = "SELECT * FROM tracked_times WHERE id = ?;";
     private static final String DELETE_BY_ID = "DELETE FROM tracked_times WHERE id = ?;";
+
 
     @Override
     public void create(TrackedTimeEntity object) throws SQLException {
@@ -49,7 +50,7 @@ public class TrackerTimeDAO implements CreateReadDeleteDAO<TrackedTimeEntity> {
       Optional<TrackedTimeEntity> optionalTimeEntity = Optional.empty();
 
       try (Connection connection = dataSourceProvider.getDataSource().getConnection();
-           PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
+           PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_USER_ID)) {
         preparedStatement.setLong(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
@@ -119,6 +120,29 @@ public class TrackerTimeDAO implements CreateReadDeleteDAO<TrackedTimeEntity> {
         preparedStatement.setTimestamp(++index, object.getStartTime());
         preparedStatement.setTimestamp(++index, object.getEndTime());
         preparedStatement.setLong(++index, object.getUserEntity().getId());
+    }
+
+    @Override
+    public List<TrackedTimeEntity> readAllByUserId(Long userId) throws SQLException {
+        List<TrackedTimeEntity> entityList = new ArrayList<>();
+
+        try (Connection connection = dataSourceProvider.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_TRACKED_TIMES)) {
+            preparedStatement.setLong(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                UserEntity userEntity = userDAO.read(userId).orElse(new UserEntity(1L, "Vania", "password"));
+                entityList.add(
+                        new TrackedTimeEntity(
+                                resultSet.getLong("id"),
+                                resultSet.getString("description"),
+                                resultSet.getTimestamp("start_time"),
+                                resultSet.getTimestamp("end_time"),
+                                userEntity));
+            }
+        }
+        return entityList;
     }
 }
 
