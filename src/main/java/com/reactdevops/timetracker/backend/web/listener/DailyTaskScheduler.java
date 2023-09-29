@@ -1,9 +1,6 @@
 package com.reactdevops.timetracker.backend.web.listener;
 
-import com.reactdevops.timetracker.backend.service.qualifiers.EmailServiceQualifier;
-import com.reactdevops.timetracker.backend.service.services.EmailService;
 import com.reactdevops.timetracker.backend.web.listener.jobs.ReportJob;
-import jakarta.inject.Inject;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -33,6 +30,7 @@ public class DailyTaskScheduler implements ServletContextListener {
       JobDetail jobReportDetail =
           JobBuilder.newJob(ReportJob.class).withIdentity("reportDailyJob").build();
 
+      //todo change from minutes to correct time
       CronTrigger cronDailyReportSender =
           TriggerBuilder.newTrigger()
               .withIdentity("reportDailyJobTrigger")

@@ -144,5 +144,10 @@ public class TrackerTimeDAO implements TimeTrackerCRUDDAO {
         }
         return entityList;
     }
+
+    @Override
+    public void setDataSourceProvider(DataSourceProvider dataSourceProvider) {
+        this.dataSourceProvider = dataSourceProvider;
+    }
 }
 
