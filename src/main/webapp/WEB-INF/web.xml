@@ -45,4 +45,8 @@
         <servlet-name>homeServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+    <!-- Listener for sending email -->
+    <listener>
+        <listener-class>com.reactdevops.timetracker.backend.web.listener.DailyTaskScheduler</listener-class>
+    </listener>
 </web-app>
