@@ -1,5 +1,7 @@
 package com.reactdevops.timetracker.backend.repository.dao;
 
+import com.reactdevops.timetracker.backend.repository.providers.DataSourceProvider;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -18,4 +20,6 @@ public interface CreateReadDeleteDAO<T> {
   List<T> readAll() throws SQLException;
 
   void deleteById(Long id) throws SQLException;
+
+  void setDataSourceProvider(DataSourceProvider dataSourceProvider);
 }

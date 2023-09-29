@@ -11,10 +11,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 @WebServlet(name = "timeTrackers", value = "/api/v1/tracked-times")
@@ -29,9 +27,10 @@ public class TimeTrackersServlets extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter pw = resp.getWriter();
-        Long userId = Long.valueOf(req.getParameter("userId"));
         Gson gson = new Gson();
+
         try {
+            Long userId = Long.valueOf(req.getParameter("userId"));
             System.out.println(timeCreateReadDeleteService.readAllByUserId(userId));
             pw.print(gson.toJson(timeCreateReadDeleteService.readAllByUserId(userId)));
         } catch (CustomWebException e) {
@@ -42,7 +41,7 @@ public class TimeTrackersServlets extends HttpServlet {
             pw.print(gson.toJson(ErrorCreatingHelper.createError("There is no such time tracker by this id")));
         } catch (ClassCastException | NumberFormatException e) {
             resp.setStatus(406);
-            pw.print(gson.toJson(ErrorCreatingHelper.createError("TimeTracker Id must be valid!")));
+            pw.print(gson.toJson(ErrorCreatingHelper.createError("User Id must be valid!")));
         }
     }
 }

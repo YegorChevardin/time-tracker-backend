@@ -104,4 +104,9 @@ public class UserDAO implements UserCRUDDAO {
     }
     return userEntity;
   }
+
+  @Override
+  public void setDataSourceProvider(DataSourceProvider dataSourceProvider) {
+    this.dataSourceProvider = dataSourceProvider;
+  }
 }
