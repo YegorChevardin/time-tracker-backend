@@ -30,7 +30,7 @@ public class DailyTaskScheduler implements ServletContextListener {
       JobDetail jobReportDetail =
           JobBuilder.newJob(ReportJob.class).withIdentity("reportDailyJob").build();
 
-      //todo change from minutes to correct time
+      //todo change from minutes to correct time and receivers email in job class
       CronTrigger cronDailyReportSender =
           TriggerBuilder.newTrigger()
               .withIdentity("reportDailyJobTrigger")

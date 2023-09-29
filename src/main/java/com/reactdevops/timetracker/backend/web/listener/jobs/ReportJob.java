@@ -18,7 +18,12 @@ public class ReportJob implements Job {
   public void execute(JobExecutionContext jobExecutionContext) {
     logger.log(Level.INFO, "Creating and sending reports...");
 
-    emailService.sendEmail(MENTOR_EMAIL);
+    try {
+      emailService.sendEmail(MENTOR_EMAIL);
+    } catch (Exception e) {
+      logger.log(Level.ERROR, e.getMessage(), e);
+      throw e;
+    }
     // todo paste telegram service action here
   }
 }

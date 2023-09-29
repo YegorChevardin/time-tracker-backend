@@ -13,6 +13,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 
 @RequestScoped
@@ -33,10 +35,10 @@ public class EmailServiceImpl implements EmailService {
   public void sendEmail(String receiverEmail) {
     logger.log(Level.INFO, String.format("Sending email to %s...", receiverEmail));
     String pdfFilePath = pdfService.createPdfReport();
-    proceedEmail(receiverEmail);
+    proceedEmail(receiverEmail, pdfFilePath);
   }
 
-  private void proceedEmail(String receiverEmail) {
+  private void proceedEmail(String receiverEmail, String pdfFilePath) {
     Properties props = new Properties();
     props.put("mail.smtp.host", smtpHost);
     props.put("mail.smtp.port", 587);
@@ -57,8 +59,9 @@ public class EmailServiceImpl implements EmailService {
       message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiverEmail));
       message.setSubject(subject);
 
-      BodyPart textPart = new MimeBodyPart();
+      MimeBodyPart textPart = new MimeBodyPart();
       textPart.setText(body);
+      textPart.attachFile(new File(pdfFilePath));
 
       Multipart multipart = new MimeMultipart();
       multipart.addBodyPart(textPart);
@@ -66,9 +69,10 @@ public class EmailServiceImpl implements EmailService {
       message.setContent(multipart);
 
       Transport.send(message);
-
+      File pdfFile = new File("sample.pdf");
+      pdfFile.delete();
       logger.log(Level.INFO, String.format("Email send successfully to %s!", receiverEmail));
-    } catch (MessagingException e) {
+    } catch (MessagingException | IOException e) {
       logger.log(Level.ERROR, e.getMessage(), e);
     }
   }
