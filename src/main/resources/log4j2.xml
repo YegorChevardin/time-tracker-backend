@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <appenders>
+        <File name="FileAppender" fileName="logs/application.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
@@ -16,6 +19,7 @@
             <appender-ref ref="Console" level="info"/>
             <appender-ref ref="Fatals" level="fatal"/>
             <appender-ref ref="Errors" level="error"/>
+            <appender-ref ref="FileAppender"/>
         </root>
     </loggers>
 </Configuration>
