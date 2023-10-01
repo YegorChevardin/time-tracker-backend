@@ -10,6 +10,7 @@
 /Users/yegorchevardin/Desktop/time-tracker/Time Tracker Backend/src/main/java/com/reactdevops/timetracker/backend/web/servlets/account/UserServlet.java
 /Users/yegorchevardin/Desktop/time-tracker/Time Tracker Backend/src/main/java/com/reactdevops/timetracker/backend/service/handler/impl/JwtHandler.java
 /Users/yegorchevardin/Desktop/time-tracker/Time Tracker Backend/src/main/java/com/reactdevops/timetracker/backend/web/dto/auth/JwtRequest.java
+/Users/yegorchevardin/Desktop/time-tracker/Time Tracker Backend/src/main/java/com/reactdevops/timetracker/backend/web/listener/jobs/ReportJob.java
 /Users/yegorchevardin/Desktop/time-tracker/Time Tracker Backend/src/main/java/com/reactdevops/timetracker/backend/service/convertors/impl/UserEntityDtoObjectConvertor.java
 /Users/yegorchevardin/Desktop/time-tracker/Time Tracker Backend/src/main/java/com/reactdevops/timetracker/backend/web/servlets/TimeTrackerServlet.java
 /Users/yegorchevardin/Desktop/time-tracker/Time Tracker Backend/src/main/java/com/reactdevops/timetracker/backend/service/exceptions/AuthException.java
