@@ -3,5 +3,50 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
-  <display-name>Time tracker application</display-name>
+    <display-name>Time tracker application</display-name>
+    <!-- CORS filter -->
+    <filter>
+        <filter-name>corsFilter</filter-name>
+        <filter-class>com.reactdevops.timetracker.backend.web.filters.CORSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>corsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- AUTH filter -->
+    <filter>
+        <filter-name>authFilter</filter-name>
+        <filter-class>com.reactdevops.timetracker.backend.web.filters.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>authFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- Error page -->
+    <!-- error page section start -->
+    <servlet>
+        <servlet-name>ErrorHandler</servlet-name>
+        <servlet-class>com.reactdevops.timetracker.backend.web.servlets.ErrorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorHandler</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error</location>
+    </error-page>
+    <!-- Home servlet -->
+    <servlet>
+        <servlet-name>homeServlet</servlet-name>
+        <servlet-class>com.reactdevops.timetracker.backend.web.servlets.HomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>homeServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <!-- Listener for sending email -->
+    <listener>
+        <listener-class>com.reactdevops.timetracker.backend.web.listener.DailyTaskScheduler</listener-class>
+    </listener>
 </web-app>
