@@ -9,7 +9,7 @@ import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 public class ReportJob implements Job {
-  private static final String MENTOR_EMAIL = "egor03052004@gmail.com";
+  private static final String MENTOR_EMAIL = "yurashmorgun@gmail.com";
   private static final Logger logger = LogManager.getLogger(ReportJob.class);
 
   private EmailService emailService = new EmailServiceImpl();
