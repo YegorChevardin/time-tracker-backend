@@ -35,15 +35,15 @@ public class TrackerTimeDAO implements TimeTrackerCRUDDAO {
   private static final String FIND_BY_USER_ID = "SELECT * FROM tracked_times WHERE id = ?;";
   private static final String DELETE_BY_ID = "DELETE FROM tracked_times WHERE id = ?;";
   private static final String REPORT_QUERY =
-      "SELECT u.username AS username, GROUP_CONCAT("
-          + "CONCAT(tt.description, ' (from ', TIME(tt.start_time), "
-          + "' to ', TIME(tt.end_time), ', total time: ', TIMEDIFF(tt.end_time, tt.start_time), ')') "
-          + "SEPARATOR ', ') AS trackedtimes "
-          + "FROM users u "
-          + "LEFT JOIN tracked_times tt ON u.id = tt.user_id "
-          + "WHERE DATE(tt.start_time) = CURDATE() OR tt.start_time IS NULL "
-          + "GROUP BY u.username "
-          + "ORDER BY u.username";
+          "SELECT u.username AS username, GROUP_CONCAT("
+                  + "CONCAT(tt.description, ' (from ', TIME(tt.start_time), "
+                  + "' to ', TIME(tt.end_time), ', total time: ', TIMEDIFF(tt.end_time, tt.start_time), ')') "
+                  + "SEPARATOR ', ') AS trackedtimes "
+                  + "FROM users u "
+                  + "LEFT JOIN tracked_times tt ON u.id = tt.user_id "
+                  + "WHERE tt.start_time >= DATE_SUB(NOW(), INTERVAL 24 HOUR) OR tt.start_time IS NULL "
+                  + "GROUP BY u.username "
+                  + "ORDER BY u.username";
 
   @Override
   public void create(TrackedTimeEntity object) throws SQLException {
