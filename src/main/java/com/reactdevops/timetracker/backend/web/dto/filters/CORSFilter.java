@@ -1,4 +1,4 @@
-package com.reactdevops.timetracker.backend.web.filters;
+package com.reactdevops.timetracker.backend.web.dto.filters;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;

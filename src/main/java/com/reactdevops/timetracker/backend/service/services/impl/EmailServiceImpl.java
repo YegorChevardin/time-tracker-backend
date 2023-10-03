@@ -38,7 +38,7 @@ public class EmailServiceImpl implements EmailService {
     proceedEmail(receiverEmail, pdfFilePath);
   }
 
-  private void proceedEmail(String receiverEmail, String pdfFilePath) {
+  public void proceedEmail(String receiverEmail, String pdfFilePath) {
     Properties props = new Properties();
     props.put("mail.smtp.host", smtpHost);
     props.put("mail.smtp.port", 587);
