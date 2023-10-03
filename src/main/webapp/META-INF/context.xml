@@ -6,6 +6,6 @@
               factory="org.jboss.weld.resources.ManagerObjectFactory"/>
     <Resource name="jdbc/timetracker" auth="Container" type="javax.sql.DataSource"
               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
-              username="root" password="Vania_2003" driverClassName="com.mysql.cj.jdbc.Driver"
-              url="jdbc:mysql://0.0.0.0:3306/timetracker"/>
+              username="root" password="password" driverClassName="com.mysql.cj.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/timetracker"/>
 </Context>
