@@ -52,6 +52,18 @@ CREATE TABLE IF NOT EXISTS `tracked_times` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `telegram_chats`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `telegram_chats` ;
+
+CREATE TABLE IF NOT EXISTS `telegram_chats` (
+  `subscribed_chat_id` INT NOT NULL,
+  PRIMARY KEY (`subscribed_chat_id`),
+  UNIQUE INDEX `subscribed_chat_id_UNIQUE` (`subscribed_chat_id` ASC) VISIBLE)
+ENGINE = InnoDB;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
