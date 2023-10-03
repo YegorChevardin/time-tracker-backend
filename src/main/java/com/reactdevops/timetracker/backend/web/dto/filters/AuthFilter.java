@@ -1,4 +1,4 @@
-package com.reactdevops.timetracker.backend.web.filters;
+package com.reactdevops.timetracker.backend.web.dto.filters;
 
 import com.google.gson.Gson;
 import com.reactdevops.timetracker.backend.service.exceptions.AuthException;

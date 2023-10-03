@@ -162,7 +162,6 @@ public class TrackerTimeDAO implements TimeTrackerCRUDDAO {
   public void setDataSourceProvider(DataSourceProvider dataSourceProvider) {
     this.dataSourceProvider = dataSourceProvider;
   }
-
   @Override
   public Table readReport() throws SQLException {
     Table table;

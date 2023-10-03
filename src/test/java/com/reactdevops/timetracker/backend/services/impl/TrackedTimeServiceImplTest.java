@@ -42,7 +42,6 @@ public class TrackedTimeServiceImplTest {
     public void serviceShouldCreate() throws SQLException {
         TrackedTime trackedTime = new TrackedTime(1L, "Description", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), null);
         TrackedTimeEntity entity = new TrackedTimeEntity(1L, "Description", new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), null);
-
         when(timeConvertor.dtoToEntity(trackedTime)).thenReturn(entity);
         doNothing().when(timeEntityCreateReadDeleteDAO).create(entity);
 
