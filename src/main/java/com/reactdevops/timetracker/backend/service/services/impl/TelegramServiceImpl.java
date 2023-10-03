@@ -68,6 +68,7 @@ public class TelegramServiceImpl implements TelegramService {
             } catch (TelegramApiException e) {
                 throw new RuntimeException(e);
             }
+            bot.onClosing();
         }
     }
 }
