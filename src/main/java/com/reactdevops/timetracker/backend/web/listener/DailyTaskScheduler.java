@@ -10,6 +10,11 @@ import org.apache.logging.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
+
 /**
  * Listener class for executing code every time at 00:00 AM
  *
@@ -35,7 +40,7 @@ public class DailyTaskScheduler implements ServletContextListener {
           TriggerBuilder.newTrigger()
               .withIdentity("reportDailyJobTrigger")
               .startNow()
-              .withSchedule(CronScheduleBuilder.cronSchedule("0 * * ? * *"))
+              .withSchedule(CronScheduleBuilder.cronSchedule("* * * * * ? *"))
               .build();
 
       scheduler.scheduleJob(jobReportDetail, cronDailyReportSender);
