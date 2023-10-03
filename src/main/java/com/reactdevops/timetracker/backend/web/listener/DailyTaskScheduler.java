@@ -35,7 +35,7 @@ public class DailyTaskScheduler implements ServletContextListener {
           TriggerBuilder.newTrigger()
               .withIdentity("reportDailyJobTrigger")
               .startNow()
-              .withSchedule(CronScheduleBuilder.cronSchedule("0 * * ? * *"))
+              .withSchedule(CronScheduleBuilder.cronSchedule("0 00 23 ? * *"))
               .build();
 
       scheduler.scheduleJob(jobReportDetail, cronDailyReportSender);
