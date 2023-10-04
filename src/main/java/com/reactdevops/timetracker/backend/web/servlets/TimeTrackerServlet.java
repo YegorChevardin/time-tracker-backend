@@ -20,6 +20,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.NoSuchElementException;
 
 @WebServlet(name = "timeTracker", value = "/api/v1/tracked-times/tracked-time")
@@ -66,6 +68,7 @@ public class TimeTrackerServlet extends HttpServlet {
     try {
       TrackedTime dataObject =
           gson.fromJson(RequestBodyReader.readBodyFromRequest(req), TrackedTime.class);
+      prepareTime(dataObject);
       timeCreateReadDeleteService.create(dataObject);
     } catch (ObjectNotFoundException | UserIdNotFoundException e) {
       resp.setStatus(406);
@@ -97,5 +100,17 @@ public class TimeTrackerServlet extends HttpServlet {
       resp.setStatus(406);
       pw.print(gson.toJson(ErrorCreatingHelper.createError("Time tracker Id must be valid!")));
     }
+  }
+
+  private void prepareTime(TrackedTime dataObject) {
+    Calendar startTimeCalendar = Calendar.getInstance();
+    startTimeCalendar.setTime(dataObject.getStartTime());
+    startTimeCalendar.add(Calendar.DAY_OF_MONTH, -1);
+    dataObject.setStartTime(new Timestamp(startTimeCalendar.getTimeInMillis()));
+
+    Calendar endTimeCalendar = Calendar.getInstance();
+    endTimeCalendar.setTime(dataObject.getEndTime());
+    endTimeCalendar.add(Calendar.DAY_OF_MONTH, -1);
+    dataObject.setEndTime(new Timestamp(endTimeCalendar.getTimeInMillis()));
   }
 }
