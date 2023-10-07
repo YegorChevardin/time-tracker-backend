@@ -30,7 +30,7 @@ public class DailyTaskScheduler implements ServletContextListener {
       JobDetail jobReportDetail =
           JobBuilder.newJob(ReportJob.class).withIdentity("reportDailyJob").build();
 
-      //For every minute use: 0 * * ? * *
+      //For every minute use: 0 * * ? * *. For 23 o'clock - 0 00 23 ? * *
       CronTrigger cronDailyReportSender =
           TriggerBuilder.newTrigger()
               .withIdentity("reportDailyJobTrigger")

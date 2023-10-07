@@ -23,7 +23,7 @@ public class PdfServiceImpl implements PdfService {
 
   private TrackerTimeDAO timeTrackerCRUDDAO;
 
-  private void initService() {
+  public void initService() {
     timeTrackerCRUDDAO = new TrackerTimeDAO();
     DataSourceProviderImpl dataSourceProvider = new DataSourceProviderImpl();
     dataSourceProvider.reloadDataSource();
@@ -43,7 +43,7 @@ public class PdfServiceImpl implements PdfService {
     }
   }
 
-  private void recordToPDF(Table table) {
+  public void recordToPDF(Table table) {
     try(FileWriter fileWriter = new FileWriter(PDF_FILE_PATH)) {
       table.write().csv(fileWriter);
       logger.log(Level.INFO, "Report created successfully...");

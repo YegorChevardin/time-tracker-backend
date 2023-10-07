@@ -1,0 +1,3 @@
+com/reactdevops/timetracker/backend/services/impl/UserServiceImplTest.class
+com/reactdevops/timetracker/backend/services/impl/TrackedTimeServiceImplTest.class
+com/reactdevops/timetracker/backend/services/impl/EmailServiceImplTest.class
